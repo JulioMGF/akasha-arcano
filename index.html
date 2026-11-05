@@ -50,7 +50,9 @@
       <label>Nombre y apellido<input name="nombre" required maxlength="120" autocomplete="name"></label>
       <label>Fecha de nacimiento<input name="fecha" type="date" required></label>
       <label>Hora de nacimiento (si la conocés)<input name="hora" type="time"></label>
-      <label>WhatsApp con código de país<input name="telefono" type="tel" placeholder="+54 9 ..." required></label>
+      <label>WhatsApp con código de país
+<input name="telefono" type="tel" placeholder="+5493534812345" pattern="\+?[0-9]{8,15}" title="Ingresá tu teléfono con código de país, por ejemplo +5493534812345" required>
+</label>
       <label>País<input name="pais" required autocomplete="country-name"></label>
       <label>Servicio<select id="serviceSelect" name="servicio" required><option value="">Seleccionar</option></select></label>
       <label>Motivo de consulta<textarea name="motivo" rows="4" maxlength="1500" placeholder="Contanos brevemente qué te gustaría explorar."></textarea></label>
