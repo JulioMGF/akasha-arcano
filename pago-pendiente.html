@@ -1,1 +1,107 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Pago pendiente | Akasha Arcano</title><link rel="stylesheet" href="/style.css"></head><body><main class="hero"><div class="eyebrow">AKASHA ARCANO</div><h1>Pago pendiente</h1><h2>Estamos esperando la acreditación</h2><p>Cuando Mercado Pago confirme la operación, podrás continuar por WhatsApp.</p><a class="button" href="/">Volver al inicio</a></main></body></html>
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pago pendiente | Akasha Arcano</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main class="hero">
+<div class="eyebrow">AKASHA ARCANO</div>
+<h1>Pago pendiente</h1>
+<h2 id="title">Estamos esperando la acreditación</h2>
+<p id="status">Podés consultar nuevamente el estado de tu pago.</p>
+
+<button id="check" class="button" type="button">
+Consultar estado del pago
+</button>
+
+<a id="whatsapp" class="button" hidden target="_blank" rel="noopener">
+Continuar por WhatsApp
+</a>
+
+<a id="retry" class="button" href="/#solicitud" style="margin-top:18px">
+Volver a la solicitud
+</a>
+</main>
+
+<script>
+(async()=>{
+const status=document.getElementById("status");
+const title=document.getElementById("title");
+const check=document.getElementById("check");
+const whatsapp=document.getElementById("whatsapp");
+const params=new URLSearchParams(location.search);
+const paymentId=params.get("payment_id")||params.get("collection_id");
+const token=sessionStorage.getItem("akasha_payment_session");
+const customerRaw=sessionStorage.getItem("akasha_customer");
+
+async function verify(){
+if(!paymentId||!token||!customerRaw){
+status.textContent="No pudimos recuperar los datos de esta operación. Contactanos por WhatsApp.";
+check.disabled=true;
+return;
+}
+
+check.disabled=true;
+check.textContent="Consultando...";
+
+try{
+const r=await fetch("/.netlify/functions/verify-payment",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({paymentId,sessionToken:token})
+});
+
+const data=await r.json();
+
+if(!r.ok){
+throw new Error(data.error||"No se pudo consultar el pago.");
+}
+
+if(data.approved){
+const c=JSON.parse(customerRaw);
+const msg=[
+"Hola, Akasha Arcano. Mi pago fue verificado como aprobado.",
+"",
+`Nombre: ${c.nombre}`,
+`Nacimiento: ${c.fecha} ${c.hora||""}`,
+`WhatsApp: ${c.telefono}`,
+`País: ${c.pais}`,
+`Servicio: ${c.servicio}`,
+`Motivo: ${c.motivo||"Sin especificar"}`,
+`Operación: ${paymentId}`
+].join("\n");
+
+whatsapp.href="https://wa.me/5493534811328?text="+encodeURIComponent(msg);
+whatsapp.hidden=false;
+title.textContent="¡Pago aprobado!";
+status.textContent="Mercado Pago confirmó tu pago. Ya podés continuar por WhatsApp.";
+check.hidden=true;
+return;
+}
+
+if(["rejected","cancelled","refunded","charged_back"].includes(data.status)){
+title.textContent="Pago no aprobado";
+status.textContent="La operación no fue aprobada. Podés volver al formulario e intentarlo nuevamente.";
+check.hidden=true;
+return;
+}
+
+title.textContent="Pago todavía pendiente";
+status.textContent="Mercado Pago todavía no confirmó la acreditación. Podés volver a consultar en unos minutos.";
+}catch(e){
+status.textContent="No pudimos consultar el estado en este momento. Intentá nuevamente.";
+}
+
+check.disabled=false;
+check.textContent="Consultar estado del pago";
+}
+
+check.addEventListener("click",verify);
+await verify();
+})();
+</script>
+</body>
+</html>
