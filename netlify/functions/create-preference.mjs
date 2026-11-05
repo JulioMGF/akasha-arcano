@@ -1,4 +1,4 @@
-netlify/functions/create-preference.mjs
+import crypto from "node:crypto";
 import crypto from "node:crypto";
 
 const PRICES = {
