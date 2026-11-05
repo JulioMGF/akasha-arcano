@@ -14,7 +14,7 @@
   const data=await r.json();
   if(!r.ok||!data.approved){status.textContent="El pago todavía no figura aprobado. Si ya abonaste, esperá unos minutos y consultanos por WhatsApp.";return}
   const c=JSON.parse(customerRaw);
-  const msg=["Hola, Akasha Arcano. Mi pago fue verificado como aprobado.", "",`Nombre: ${c.nombre}`,`Nacimiento: ${c.fecha} ${c.hora||""}`,`WhatsApp: ${c.telefono}`,`País: ${c.pais}`,`Servicio: ${c.servicio}`,`Motivo: ${c.motivo||"Sin especificar"}`,`Operación: ${paymentId}`].join("\\n");
+  const msg=["Hola, Akasha Arcano. Mi pago fue verificado como aprobado.", "",`Nombre: ${c.nombre}`,`Nacimiento: ${c.fecha} ${c.hora||""}`,`WhatsApp: ${c.telefono}`,`País: ${c.pais}`,`Servicio: ${c.servicio}`,`Motivo: ${c.motivo||"Sin especificar"}`,`Operación: ${paymentId}`].join("\n");
   link.href="https://wa.me/5493534811328?text="+encodeURIComponent(msg);
   link.hidden=false;status.textContent="¡Pago aprobado! Ya podés continuar por WhatsApp para coordinar tu consulta.";
  }catch(e){status.textContent="No pudimos verificar el pago en este momento. Contactanos por WhatsApp antes de volver a pagar."}
