@@ -1,0 +1,27 @@
+AKASHA ARCANO — paquete de integración Mercado Pago
+
+IMPORTANTE:
+- Este paquete es una reconstrucción de la web basada en el contenido compartido en la conversación. No es una copia byte por byte de los archivos originales.
+- No lo publiques todavía en producción. Primero configurá las variables y credenciales de prueba y probá el flujo.
+- El pago se verifica consultando la API de Mercado Pago desde una función de Netlify. El token privado nunca se envía al navegador.
+- No compartas MP_ACCESS_TOKEN ni AKASHA_SESSION_SECRET por chat.
+
+Archivos:
+- index.html, style.css, script.js: web reconstruida.
+- pago-exitoso.html: consulta el pago al servidor; solo muestra el botón WhatsApp si el pago está aprobado y coincide con la sesión firmada.
+- pago-fallido.html / pago-pendiente.html: estados de retorno.
+- netlify/functions: creación de preferencia, verificación y endpoint de notificaciones.
+- netlify.toml: configuración de funciones.
+
+Variables de entorno que deben cargarse en Netlify (scope Functions):
+1. MP_ACCESS_TOKEN = token privado de Mercado Pago (primero credenciales de prueba).
+2. AKASHA_SESSION_SECRET = cadena aleatoria larga generada para firmar sesiones.
+3. URL = Netlify normalmente la provee automáticamente; si no, SITE_URL = URL pública del sitio.
+
+LIMITACIONES / REVISIÓN ANTES DE PRODUCCIÓN:
+- El paquete habilita pagos ARS para los servicios con precio confirmado en pesos.
+- Las experiencias complementarias con tarifa a coordinar no permiten iniciar checkout.
+- Las tarifas USD no se cobran con este checkout argentino.
+- El webhook registra avisos; la autorización de WhatsApp depende de la verificación activa contra la API de pagos.
+- El cliente debe desplegar este paquete como sitio Netlify completo, no subir archivos sueltos.
+- Recomendado: primero probar con credenciales TEST y cuentas de prueba de Mercado Pago; luego cambiar a credenciales de producción.

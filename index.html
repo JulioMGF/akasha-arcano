@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Akasha Arcano — Tu espacio esencial. Consultas y experiencias personalizadas.">
+  <title>Akasha Arcano | Tu espacio esencial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="header">
+  <a class="logo" href="#inicio">AKASHA <span>ARCANO</span></a>
+  <nav><a href="#consultas">Consultas</a><a href="#experiencias">Experiencias</a><a href="#presenciales">Presenciales</a><a href="#solicitud">Solicitar</a></nav>
+</header>
+<main>
+  <section class="hero" id="inicio">
+    <div class="eyebrow">UN CAMINO HACIA TU INTERIOR</div>
+    <h1>AKASHA <span>ARCANO</span></h1>
+    <h2>Tu espacio esencial</h2>
+    <p>Símbolos que revelan. Conciencia que transforma.</p>
+    <a class="button" href="#consultas">Explorar consultas</a>
+  </section>
+  <section class="intro">
+    <div class="eyebrow">EL ARTE DE DESCUBRIRTE</div>
+    <h2>Mirar hacia adentro también es abrir nuevos caminos.</h2>
+    <p>Un espacio de exploración espiritual y autoconocimiento a través del tarot, los registros akáshicos y experiencias terapéuticas personalizadas.</p>
+  </section>
+  <section class="section dark" id="consultas">
+    <div class="eyebrow">CONSULTAS PERSONALIZADAS</div><h2>Consultas online</h2>
+    <p>Devolución personalizada en PDF por WhatsApp, una vez confirmado el pago.</p>
+    <div class="currency"><button type="button" data-currency="ars" class="active">Argentina · ARS</button><button type="button" data-currency="usd">Internacional · USD</button></div>
+    <div class="catalog" id="catalog"></div>
+  </section>
+  <section class="section" id="experiencias">
+    <div class="eyebrow">EXPLORACIÓN Y TRANSFORMACIÓN</div><h2>Otras experiencias</h2><div class="catalog" id="extras"></div>
+  </section>
+  <section class="section dark" id="presenciales">
+    <div class="eyebrow">VILLA MARÍA · VILLA NUEVA</div><h2>Sesiones presenciales</h2><p>Turnos coordinados previamente.</p><div class="catalog" id="onsite"></div>
+  </section>
+  <section class="section">
+    <div class="eyebrow">TU CONSULTA, PASO A PASO</div><h2>¿Cómo funciona?</h2>
+    <div class="steps"><article><b>01 · Elegís</b><p>Seleccionás el servicio.</p></article><article><b>02 · Completás</b><p>Ingresás tus datos y tu consulta.</p></article><article><b>03 · Abonás</b><p>Pagás de forma segura mediante Mercado Pago.</p></article><article><b>04 · Recibís</b><p>Tras verificar el pago, continuás por WhatsApp y recibís tu PDF personalizado.</p></article></div>
+  </section>
+  <section class="section dark" id="solicitud">
+    <div class="eyebrow">COMENZÁ TU EXPERIENCIA</div><h2>Solicitar una consulta</h2>
+    <form id="requestForm">
+      <label>Nombre y apellido<input name="nombre" required maxlength="120" autocomplete="name"></label>
+      <label>Fecha de nacimiento<input name="fecha" type="date" required></label>
+      <label>Hora de nacimiento (si la conocés)<input name="hora" type="time"></label>
+      <label>WhatsApp con código de país<input name="telefono" type="tel" placeholder="+54 9 ..." required></label>
+      <label>País<input name="pais" required autocomplete="country-name"></label>
+      <label>Servicio<select id="serviceSelect" name="servicio" required><option value="">Seleccionar</option></select></label>
+      <label>Motivo de consulta<textarea name="motivo" rows="4" maxlength="1500" placeholder="Contanos brevemente qué te gustaría explorar."></textarea></label>
+      <label class="consent"><input type="checkbox" name="consentimiento" required> Acepto el uso de mis datos para gestionar esta solicitud y contactarme.</label>
+      <p id="priceSummary" class="price-summary">Seleccioná un servicio para ver el importe.</p>
+      <button class="button" type="submit" id="payButton">Pagar ahora</button>
+      <p class="small-note">El pago se procesa en Mercado Pago. La consulta se coordina una vez verificada la acreditación.</p>
+      <p id="formMessage" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+  <section class="contact"><h2>Conectá con Akasha</h2><a href="https://www.instagram.com/eter_akasha/" target="_blank" rel="noopener">Instagram · @eter_akasha</a><a href="https://wa.me/5493534811328" target="_blank" rel="noopener">WhatsApp</a></section>
+</main>
+<footer>AKASHA ARCANO · Tu espacio esencial · © 2026</footer>
+<script src="/script.js" defer></script>
+</body>
+</html>

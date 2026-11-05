@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Verificando pago | Akasha Arcano</title><link rel="stylesheet" href="/style.css"></head>
+<body><main class="hero"><div class="eyebrow">AKASHA ARCANO</div><h1>Verificando</h1><h2>Estamos comprobando tu pago</h2><p id="status">Esperá un instante. No cierres esta página.</p><a id="whatsapp" class="button" hidden target="_blank" rel="noopener">Continuar por WhatsApp</a><a class="button" href="/" style="margin-top:18px">Volver al inicio</a></main>
+<script>
+(async()=>{
+ const status=document.getElementById("status"),link=document.getElementById("whatsapp");
+ const params=new URLSearchParams(location.search);
+ const paymentId=params.get("payment_id")||params.get("collection_id");
+ const token=sessionStorage.getItem("akasha_payment_session");
+ const customerRaw=sessionStorage.getItem("akasha_customer");
+ if(!paymentId||!token||!customerRaw){status.textContent="No pudimos validar esta sesión. Contactanos por WhatsApp para revisar el pago.";return}
+ try{
+  const r=await fetch("/.netlify/functions/verify-payment",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({paymentId,sessionToken:token})});
+  const data=await r.json();
+  if(!r.ok||!data.approved){status.textContent="El pago todavía no figura aprobado. Si ya abonaste, esperá unos minutos y consultanos por WhatsApp.";return}
+  const c=JSON.parse(customerRaw);
+  const msg=["Hola, Akasha Arcano. Mi pago fue verificado como aprobado.", "",`Nombre: ${c.nombre}`,`Nacimiento: ${c.fecha} ${c.hora||""}`,`WhatsApp: ${c.telefono}`,`País: ${c.pais}`,`Servicio: ${c.servicio}`,`Motivo: ${c.motivo||"Sin especificar"}`,`Operación: ${paymentId}`].join("\\n");
+  link.href="https://wa.me/5493534811328?text="+encodeURIComponent(msg);
+  link.hidden=false;status.textContent="¡Pago aprobado! Ya podés continuar por WhatsApp para coordinar tu consulta.";
+ }catch(e){status.textContent="No pudimos verificar el pago en este momento. Contactanos por WhatsApp antes de volver a pagar."}
+})();
+</script></body></html>
