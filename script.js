@@ -109,7 +109,33 @@ function updatePrice(){
 populateSelect();
 render();
 
+// Recuperar los datos si el cliente vuelve desde un pago fallido.
+try {
+  const saved = JSON.parse(
+    sessionStorage.getItem("akasha_customer") || "null"
+  );
+
+  if (saved) {
+    const form = $("requestForm");
+
+    Object.entries(saved).forEach(([name, value]) => {
+      const field = form.elements.namedItem(name);
+
+      if (!field) return;
+
+      if (field.type === "checkbox") {
+        field.checked = value === "on";
+      } else {
+        field.value = value;
+      }
+    });
+  }
+} catch (error) {
+  console.warn("No se pudieron recuperar los datos anteriores.");
+}
+
 $("serviceSelect").addEventListener("change",updatePrice);
+updatePrice();
 
 $("requestForm").addEventListener("submit",async e=>{
   e.preventDefault();
